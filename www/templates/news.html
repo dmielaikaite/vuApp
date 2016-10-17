@@ -1,0 +1,21 @@
+<!-- <ion-view view-title="News">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="new in news" href="#/app/news/{{new.id}}">
+        {{new.title}}
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
+ -->
+<!-- ng-click="browse(entry)" -->
+<ion-view view-title="Vilnius University" name="login-view">
+        <ion-content ng-init="init()">
+            <div class="list">
+                <a ng-repeat="entry in entries track by $index"  class="item"  ng-click="browse(entry)">
+                    <b>{{entry.title}}</b>
+                    <p ng-bind-html="entry.contentSnippet"></p>
+                </a>
+            </div>
+        </ion-content>
+</ion-view>

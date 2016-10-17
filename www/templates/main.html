@@ -1,0 +1,57 @@
+<ion-view view-title="Vilnius University" name="login-view">
+<ion-content class="padding">
+
+<div class="vu-logo">
+    <img src="img/logo.png" />
+</div>
+
+<div class="welcome_title">
+    <h2>Welcome!</h2>
+</div>
+
+<div class="list">
+    <label class="item item-input item-select">
+        <div class="input-label">
+            Choose your faculty
+        </div>
+        <select ng-model="faculty" ng-change="selectFaculty(faculty)" ng-model="newsFacaulty.name">
+            <option>Faculty of Chemistry­­</option>
+            <option selected>Faculty of Communication­</option>
+            <option>Faculty of Economics­</option>
+            <option>Faculty of History­</option>
+            <option>Faculty of Humanities in Kaunas</option>
+            <option>Faculty of Law</option>
+            <option>Faculty of Mathematics and Informatics</option>
+            <option>Faculty of Medicine</option>
+            <option>Faculty of Natural Sciences</option>
+            <option>Faculty of Philology</option>
+            <option>Faculty of Philosophy</option>
+            <option>Faculty of Physics</option>
+            <option>Institute of Foreign Languages</option>
+            <option>Institute of International Relations and Political Science</option>
+        </select>
+    </label>
+</div>
+
+<ion-item menu-close ng-click="login()" class="login_button">Login</ion-item>
+</ion-content>
+
+</ion-view>
+
+
+
+
+
+
+<!--  <ion-view view-title="Vilnius University" name="login-view">
+  
+        <ion-content ng-controller="RssNewsController" ng-init="init()">
+            <div class="list">
+                <a ng-repeat="entry in entries" class="item" ng-click="browse(entry)">
+                    <img src="{{getPhoto(entry)}}" alt="Photo" style="height: 60px; border-radius: 40%;" />
+                    <b>{{entry.title}}</b>
+                    <p ng-bind-html="entry.contentSnippet"></p>
+                </a>
+            </div>
+        </ion-content>
+</ion-view> -->
