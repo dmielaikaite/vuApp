@@ -1,0 +1,10 @@
+<ion-view view-title="Vilnius University" name="login-view">
+        <ion-content ng-init="init()">
+            <div class="list">
+                <a ng-repeat="entry in entries track by $index"  class="item"  ng-click="browse(entry)">
+                    <b>{{entry.title}}</b>
+                    <p ng-bind-html="entry.contentSnippet"></p>
+                </a>
+            </div>
+        </ion-content>
+</ion-view>

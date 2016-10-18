@@ -30,13 +30,24 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
-  .state('app.news', {
+  .state('app.faculty_news', {
     url: "/news",
     cache: false,
     views: {
-      'tab-news': {
-        templateUrl: "templates/news.html",
-        controller: 'NewsCtrl'
+      'tab-facultyNews': {
+        templateUrl: "templates/faculty_news.html",
+        controller: 'FacultyNewsCtrl'
+      }
+    }
+  })
+
+  .state('app.university_news', {
+    url: "/vu_news",
+    cache: false,
+    views: {
+      'tab-universityNews': {
+        templateUrl: "templates/vu_news.html",
+        controller: 'VuNewsCtrl'
       }
     }
   })
@@ -55,9 +66,20 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       url: "/news/:newsid",
       params: {'result': null},
       views: {
-        'tab-news': {
+        'tab-facultyNews': {
           templateUrl: "templates/new.html",
           controller: 'NewlistCtrl'
+        }
+      }
+    })
+
+    .state('app.singleVuEvent', {
+      url: "/vu_news/:vu_newsid",
+      params: {'result': null},
+      views: {
+        'tab-universityNews': {
+          templateUrl: "templates/new.html",
+          controller: 'EventsListCtrl'
         }
       }
     })

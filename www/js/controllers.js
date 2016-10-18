@@ -9,7 +9,7 @@ angular.module('starter.controllers', [])
     return newsFaculty;
 })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, newsService) {
 
   $scope.loginData = {};
 
@@ -35,9 +35,46 @@ angular.module('starter.controllers', [])
       $scope.closeLogin();
     }, 1000);
   };
+
+  $scope.selectFaculty = function(faculty) {
+    newsService.newsFaculty = faculty;
+    console.log(newsService.newsFaculty);
+  }
 })
 
-.controller('NewsCtrl', function($http, $scope , newsService, $state) {
+.controller('VuNewsCtrl', function($http, $scope , newsService, $state) {
+    var query = "http://www.vu.lt/en/news?format=feed&type=rss";
+  
+$scope.init = function() {
+        $http.get("http://ajax.googleapis.com/ajax/services/feed/load", { params: { "v": "1.0", "num":"85", "q": query } })
+            .success(function(data) {
+              console.log('success');
+                $scope.rssTitle = data.responseData.feed.title;
+                $scope.rssUrl = data.responseData.feed.feedUrl;
+                $scope.rssSiteUrl = data.responseData.feed.link;
+                $scope.entries = data.responseData.feed.entries;
+                window.localStorage["entries"] = JSON.stringify(data.responseData.feed.entries);
+            })
+            .error(function(data) {
+              console.log('error');
+                console.log("ERROR: " + data);
+                //cache our data in case there is a time where the user does not have internet access 
+                if(window.localStorage["entries"] !== undefined) {
+                    $scope.entries = JSON.parse(window.localStorage["entries"]);
+                }
+            });
+    }
+
+    $scope.browse = function(v) {
+      $scope.oneNewEntry = v;
+      console.log($scope.oneNewEntry);
+      $state.go('app.singleVuEvent', {result: $scope.oneNewEntry});
+      console.log('clicked');
+    }
+
+})
+
+.controller('FacultyNewsCtrl', function($http, $scope , newsService, $state) {
     console.log('chosen: ' + newsService.newsFaculty);
     var facultyRssNewsUrl = "";
     var query = "http://www.vu.lt/en/news?format=feed&type=rss";
@@ -142,4 +179,16 @@ $scope.init = function() {
   console.log($scope.oneEntry);
   console.log('one new');
 })
+
+.controller('EventsListCtrl', function($scope, $stateParams, newsService) {
+  $scope.oneEntry = $stateParams.result
+  $scope.getPhoto = function(entry) {
+        var imgUrl = entry.content.match(/src="([^"]*)/)[1];
+        return imgUrl;
+  }
+
+  console.log($scope.oneEntry);
+  console.log('one new');
+});
+
 
