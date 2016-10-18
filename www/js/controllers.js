@@ -6,10 +6,13 @@ angular.module('starter.controllers', [])
         title: '',
         price: ''
     };
-    return newsFaculty;
+   var facultyUrl = {
+        url: ''
+    };   
+    return newsFaculty, facultyUrl;
 })
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, newsService) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, newsService, $http) {
 
   $scope.loginData = {};
 
@@ -76,77 +79,39 @@ $scope.init = function() {
 
 .controller('FacultyNewsCtrl', function($http, $scope , newsService, $state) {
     console.log('chosen: ' + newsService.newsFaculty);
-    var facultyRssNewsUrl = "";
-    var query = "http://www.vu.lt/en/news?format=feed&type=rss";
-    if (newsService.newsFaculty == undefined){
-      facultyRssNewsUrl = query;
-    }
-    if (newsService.newsFaculty == "Faculty of Chemistry­­"){
-     facultyRssNewsUrl =  query;
-    }
-    if (newsService.newsFaculty == "Faculty of Communication­"){
-      facultyRssNewsUrl =  query;
-    }
-    if (newsService.newsFaculty == "Faculty of Economics­"){
-      facultyRssNewsUrl =  query; 
-    }
-    if (newsService.newsFaculty == "Faculty of History­"){
-     facultyRssNewsUrl =  query;  
-    }
-    if (newsService.newsFaculty == "Faculty of Humanities in Kaunas"){
-      facultyRssNewsUrl =  query; 
-    }
-    if (newsService.newsFaculty == "Faculty of Law"){
-      facultyRssNewsUrl =  query;
-    }
-    if (newsService.newsFaculty == "Faculty of Mathematics and Informatics"){
-      facultyRssNewsUrl =  "http://mif.vu.lt/lt3/en/news/events?format=feed&type=rss";
-    }
-    if (newsService.newsFaculty == "Faculty of Medicine"){
-      facultyRssNewsUrl =  query;
-    }
-    if (newsService.newsFaculty == "Faculty of Natural Sciences"){
-      facultyRssNewsUrl =  query;
-    }
-    if (newsService.newsFaculty == "Faculty of Philology"){
-      facultyRssNewsUrl =  "http://www.flf.vu.lt/naujienos/bendros-naujienos?format=feed&type=rss";
-    }
-    if (newsService.newsFaculty == "Faculty of Philosophy"){
-      facultyRssNewsUrl =  "http://www.fsf.vu.lt/rss-feed?format=raw&id=94";
-    }
-    if (newsService.newsFaculty == "Faculty of Physics"){
-      facultyRssNewsUrl =  "http://www.ff.vu.lt/naujienos?format=feed&type=rss";
-    }
-    if (newsService.newsFaculty == "Institute of Foreign Languages"){
-      facultyRssNewsUrl =  query;
-    }
-    if (newsService.newsFaculty == "Institute of International Relations and Political Science"){
-      facultyRssNewsUrl =  "http://www.tspmi.vu.lt/en/news/rss.xml";
-    }       
-   
 
-$scope.init = function() {
-        $http.get("http://ajax.googleapis.com/ajax/services/feed/load", { params: { "v": "1.0", "num":"85", "q": facultyRssNewsUrl } })
-            .success(function(data) {
-                $scope.rssTitle = data.responseData.feed.title;
-                $scope.rssUrl = data.responseData.feed.feedUrl;
-                $scope.rssSiteUrl = data.responseData.feed.link;
-                $scope.entries = data.responseData.feed.entries;
-                //cache our data in case there is a time where the user does not have internet access 
-                window.localStorage["entries"] = JSON.stringify(data.responseData.feed.entries);
-                //console.log(data.responseData.feed.entries[0]);
-                console.log($scope.entries[0].publishedDate);
+    $scope.init = function() {
+        $http.get('js/data.json').success(function(data) {
+          for (var i = 0; i < data.faculties.length; i++){
+            if (newsService.newsFaculty == data.faculties[i].name){
+              newsService.facultyUrl = data.faculties[i].url;
+              if (newsService.facultyUrl == "" || newsService.facultyUrl == null){
+                newsService.facultyUrl = "http://www.vu.lt/en/news?format=feed&type=rss";
+              }
+            }
+          }
+            $http.get("http://ajax.googleapis.com/ajax/services/feed/load", { params: { "v": "1.0", "num":"85", "q": newsService.facultyUrl } })
+                .success(function(data) {
+                    $scope.rssTitle = data.responseData.feed.title;
+                    $scope.rssUrl = data.responseData.feed.feedUrl;
+                    $scope.rssSiteUrl = data.responseData.feed.link;
+                    $scope.entries = data.responseData.feed.entries;
+                    //cache our data in case there is a time where the user does not have internet access 
+                    window.localStorage["entries"] = JSON.stringify(data.responseData.feed.entries);
+                    //console.log(data.responseData.feed.entries[0]);
+                    console.log($scope.entries[0].publishedDate);
 
-            })
-            .error(function(data) {
-                console.log("ERROR: " + data);
-                //cache our data in case there is a time where the user does not have internet access 
-                if(window.localStorage["entries"] !== undefined) {
-                    $scope.entries = JSON.parse(window.localStorage["entries"]);
-                }
-            });
-    }
-
+                })
+                .error(function(data) {
+                    console.log("ERROR: " + data);
+                    //cache our data in case there is a time where the user does not have internet access 
+                    if(window.localStorage["entries"] !== undefined) {
+                        $scope.entries = JSON.parse(window.localStorage["entries"]);
+                    }
+                });
+                //
+                 }); 
+        }
     $scope.browse = function(v) {
       $scope.oneNewEntry = v;
       // $scope.oneEntry = v;
@@ -155,7 +120,6 @@ $scope.init = function() {
       console.log('clicked');
     // window.open(v, "_system", "location=yes");
     }
-
 })
 
 .controller('MainCtrl', function($scope, $stateParams) {
@@ -164,20 +128,10 @@ $scope.init = function() {
 
 .controller('NewlistCtrl', function($scope, $stateParams, newsService) {
   $scope.oneEntry = $stateParams.result
-
   $scope.getPhoto = function(entry) {
         var imgUrl = entry.content.match(/src="([^"]*)/)[1];
-        // if (imgUrl != null){
-          return imgUrl;
-        // }
-        //dosn't work, yet
-        // else{
-        //   return imgUrl = "https://www.google.lt/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwj8vs7WgODPAhWpZpoKHSd5C9kQjRwIBw&url=http%3A%2F%2Fwww.vu.lt%2Fapiemus%2Fvu-atributika&psig=AFQjCNGkNLgJ6CkDnUMIzxbbQUf-nfXOBQ&ust=1476730690694665"
-        // }
+        return imgUrl;
   }
-
-  console.log($scope.oneEntry);
-  console.log('one new');
 })
 
 .controller('EventsListCtrl', function($scope, $stateParams, newsService) {
