@@ -1,0 +1,60 @@
+{
+	"faculties": [
+		{
+			"name": "Faculty of Chemistry­­",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of Communication­",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of Economics­",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of History­",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of Humanities in Kaunas",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of Law",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of Mathematics and Informatics",
+			"url" : "http://mif.vu.lt/lt3/en/news/events?format=feed&type=rss"	
+		},
+		{
+			"name": "Faculty of Medicine",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of Natural Sciences",
+			"url" : ""	
+		},
+		{
+			"name": "Faculty of Philology",
+			"url" : "http://www.flf.vu.lt/naujienos/bendros-naujienos?format=feed&type=rss"	
+		},
+		{
+			"name": "Faculty of Philosophy",
+			"url" : "http://www.fsf.vu.lt/rss-feed?format=raw&id=94"	
+		},
+		{
+			"name": "Faculty of Physics",
+			"url" : "http://www.ff.vu.lt/naujienos?format=feed&type=rss"	
+		},		
+		{
+			"name": "Institute of Foreign Languages",
+			"url" : ""	
+		},	
+		{
+			"name": "Institute of International Relations and Political Science",
+			"url" : "http://www.tspmi.vu.lt/en/news/rss.xml"	
+		}																				
+	]
+}
